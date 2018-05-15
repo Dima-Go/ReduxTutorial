@@ -1,43 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from './course.service';
 import { Course } from './course';
-import { FilterTextComponent, FilterService } from '../blocks/filter-text';
-import { store } from '../store';
+import { FilterTextComponent } from '../blocks/filter-text';
+import { store, filterCourses } from '../store';
 
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css']
 })
-export class CourseListComponent implements OnInit {
-  courses: Course[];
-  filteredCourses = this.courses;
+export class CourseListComponent implements OnInit
+{
+  filteredCourses = [];
 
-  constructor(private _courseService: CourseService, private _filterService: FilterService) {
-  }
+  constructor(private _courseService: CourseService) { }
 
   filterChanged(searchText: string) {
     console.log('user searched: ', searchText);
-    this.filteredCourses = this._filterService.filter(searchText, ['id', 'name', 'topic'], this.courses);
+    store.dispatch(filterCourses(searchText));
   }
-
-  // removed when added redux
-  // getCourses() {
-  //   this._courseService.getCourses()
-  //     .subscribe(courses => {
-  //       this.courses = this.filteredCourses = courses;
-  //     });
-  // }
 
   updateFromState() 
   {
     const allState = store.getState();
-    this.courses = allState.courses;
-    this.filteredCourses = allState.courses;
+    this.filteredCourses = allState.filterCourses;
   }
 
   ngOnInit() {
-    // this.getCourses(); // removed when added redux
     this.updateFromState();
     store.subscribe(() =>
     {
