@@ -17,21 +17,22 @@ const courses =
     },
     {
       "id":3,
-      "name": "Building Apps with Angular and Reduxt (local)",
+      "name": "Building Apps with Angular and Redux (local)",
       "topic": "Angular and Redux"
     }
   ]
 
 const initialState: IAppState =
 {
-  courses, filterCourses: courses
+  courses,
+  filteredCourses: courses
 };
 
 function filterCourses(state, action): IAppState
 {
   return Object.assign({}, state,
   {
-    filterCourses: state.courses.filter(course => course.name.toLowerCase() == action.searcText.toLowerCase()),
+    filteredCourses: state.courses.filter(course => course.name.toLowerCase().indexOf(action.searchText.toLowerCase()) > -1),
   });
 }
 

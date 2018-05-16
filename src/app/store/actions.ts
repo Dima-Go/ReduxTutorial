@@ -1,9 +1,9 @@
 export const FILTER_COURSES = 'courses/FILTER';
 
-export function filterCourses(searcText: string)
+export function filterCourses(searchText: string)
 {
     return {
         type: FILTER_COURSES,
-        searcText,
+        searchText,
     };
 }
